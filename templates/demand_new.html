@@ -1,0 +1,224 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增需求</title>
+    <link rel="stylesheet" href="{% static 'css/layui.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modules/layer/default/layer.css' %}">
+
+    <style>
+        {#        .layui-row {#}
+        {#            margin-top: 20px;#}
+        {#        }#}
+    </style>
+</head>
+<body>
+<script src="{% static 'js/lay/modules/jquery.js' %}"></script>
+<script src="{% static 'js/layui.js' %}"></script>
+<div class="layui-layout layui-layout-admin">
+    <div class=" layui-header header header-demo">
+        <a class="layui-logo" href="/">
+            <img src="{% static 'images/logo-text-whitetext_v2.svg' %}" alt="layui">
+        </a>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="">控制台<span class="layui-badge">9</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="">个人中心<span class="layui-badge-dot"></span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">修改信息</a></dd>
+                    <dd><a href="javascript:;">安全管理</a></dd>
+                    <dd><a href="javascript:;">退了</a></dd>
+                </dl>
+            </li>
+        </ul>
+
+    </div>
+    <div class="layui-side layui-bg-black ">
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">项目管理</a>
+                    <dl class="layui-nav-child">
+                        <dd class="layui-this" ><a href="/user/demand/pool/" >需求池</a></dd>
+                        <dd><a href="javascript:;">选项2</a></dd>
+                        <dd><a href="">跳转</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">解决方案</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">移动模块</a></dd>
+                        <dd><a href="">后台模版</a></dd>
+                        <dd><a href="">电商平台</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">产品</a></li>
+                <li class="layui-nav-item"><a href="">大数据</a></li>
+
+                <span class="layui-nav-bar" style="top: 270px; height: 0px; opacity: 0;"></span>
+
+            </ul>
+
+            <span class="layui-nav-bar" style="top: 277.5px; height: 0px; opacity: 0;"></span></ul>
+        </div>
+    </div>
+    <div class="layui-body" id="LAY_app_body" style="background: #f2f2f2">
+
+        <div class="layui-card layui-fluid">
+            <div class="layui-card-body ">
+                    <span class="layui-breadcrumb">
+                        <a href="">项目管理</a>
+                        <a href="/user/demand/pool/">需求池</a>
+                        <a><cite>新增需求</cite></a>
+                    </span>
+            </div>
+        </div>
+        <div class="layui-fluid">
+            <div class="layui-card layui-col-lg9 layui-col-md9">
+                <div class="layui-card-header" style="font-size: 20px">需求信息填写</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="component-form-element">
+                        <div class="layui-row layui-col-space10 layui-form-item">
+                            <div class="layui-col-lg6">
+                                <label class="layui-form-label">员工姓名：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="fullname" lay-verify="required" placeholder=""
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-col-lg6">
+                                <label class="layui-form-label">项目：</label>
+                                <div class="layui-input-block">
+                                    <select name="type" lay-verify="required" lay-filter="aihao">
+                                        <option value=""></option>
+                                        <option value="0">前端工程师</option>
+                                        <option value="1">Node.js工程师</option>
+                                        <option value="2">PHP工程师</option>
+                                        <option value="3">Java工程师</option>
+                                        <option value="4">运维</option>
+                                        <option value="4">视觉设计师</option>
+                                    </select>
+                                    <div class="layui-unselect layui-form-select">
+                                        <div class="layui-select-title"><input type="text" placeholder="请选择"
+                                                                               value="" readonly=""
+                                                                               class="layui-input layui-unselect"><i
+                                                class="layui-edge"></i></div>
+                                        <dl class="layui-anim layui-anim-upbit">
+                                            <dd lay-value="" class="layui-select-tips">请选择</dd>
+                                            <dd lay-value="0" class="">前端工程师</dd>
+                                            <dd lay-value="1" class="">Node.js工程师</dd>
+                                            <dd lay-value="2" class="">PHP工程师</dd>
+                                            <dd lay-value="3" class="">Java工程师</dd>
+                                            <dd lay-value="4" class="">运维</dd>
+                                            <dd lay-value="4" class="">视觉设计师</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">兴趣爱好：</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="interest[write]" title="写作">
+                                <div class="layui-unselect layui-form-checkbox"><span>写作</span><i
+                                        class="layui-icon layui-icon-ok"></i></div>
+                                <input type="checkbox" name="interest[read]" title="阅读">
+                                <div class="layui-unselect layui-form-checkbox"><span>阅读</span><i
+                                        class="layui-icon layui-icon-ok"></i></div>
+                                <input type="checkbox" name="interest[code]" title="代码" checked="">
+                                <div class="layui-unselect layui-form-checkbox layui-form-checked">
+                                    <span>代码</span><i class="layui-icon layui-icon-ok"></i></div>
+                                <input type="checkbox" name="interest[dreaming]" title="做梦">
+                                <div class="layui-unselect layui-form-checkbox"><span>做梦</span><i
+                                        class="layui-icon layui-icon-ok"></i></div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">是否婚姻：</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="marriage" lay-skin="switch" lay-text="是|否">
+                                <div class="layui-unselect layui-form-switch" lay-skin="_switch">
+                                    <em>否</em><i></i></div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">所属职称：</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="role" value="" title="经理">
+                                <div class="layui-unselect layui-form-radio"><i
+                                        class="layui-anim layui-icon"></i>
+                                    <div>经理</div>
+                                </div>
+                                <input type="radio" name="role" value="" title="主管">
+                                <div class="layui-unselect layui-form-radio"><i
+                                        class="layui-anim layui-icon"></i>
+                                    <div>主管</div>
+                                </div>
+                                <input type="radio" name="role" value="" title="码农" checked="">
+                                <div class="layui-unselect layui-form-radio layui-form-radioed"><i
+                                        class="layui-anim layui-icon"></i>
+                                    <div>码农</div>
+                                </div>
+                                <input type="radio" name="role" value="" title="端水">
+                                <div class="layui-unselect layui-form-radio"><i
+                                        class="layui-anim layui-icon"></i>
+                                    <div>端水</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">其它信息：</label>
+                            <div class="layui-input-block">
+                                <textarea name="other" placeholder="" class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"> </label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="" title="同意" lay-skin="primary" checked="">
+                                <div class="layui-unselect layui-form-checkbox layui-form-checked"
+                                     lay-skin="primary"><span>同意</span><i class="layui-icon layui-icon-ok"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit="" lay-filter="component-form-element">
+                                    立即提交
+                                </button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+
+
+<script>
+    layui.use('element', function () {
+        var element = layui.element;
+    });
+
+    layui.use('form', function () {
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+</script>
+</html>
