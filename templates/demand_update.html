@@ -5,7 +5,7 @@
 {% block crumbs %}
     <a href="">项目管理</a>
     <a href="/user/demand/pool/">需求池</a>
-    <a><cite>新增需求</cite></a>
+    <a><cite>更新需求</cite></a>
 {% endblock %}
 {% block main %}
 
@@ -18,8 +18,11 @@
                         <div class="layui-col-lg6">
                             <label class="layui-form-label">需求名称：</label>
                             <div class="layui-input-block">
-                                <input id="name" name="name" lay-verify="required" placeholder="不可重复"
-                                       autocomplete="off" class="layui-input">
+                                <input name="id" style="display: none" value="{{ requirement.id }}"
+                                       class="layui-input"/>
+
+                                <input id="name" name="name" lay-verify="required"
+                                       autocomplete="off" class="layui-input" value={{ requirement.name }}>
                             </div>
                         </div>
                         <div class="layui-col-space10 ">
@@ -33,7 +36,13 @@
                             <div class="layui-input-block">
                                 <select name="project" lay-verify="required" lay-filter="project">
                                     {% for p in projects %}
-                                        <option value="{{ p.id }}">{{ p.name }}</option>
+                                        {% if p.id == requirement.project.id %}
+                                            <option value="{{ p.id }}" selected>{{ p.name }}</option>
+                                        {% else %}
+                                            <option value="{{ p.id }}">{{ p.name }}</option>
+
+                                        {% endif %}
+
                                     {% endfor %}
                                 </select>
                             </div>
@@ -46,7 +55,11 @@
                             <div class="layui-input-block">
                                 <select name="owner" lay-verify="required" lay-filter="aihao">
                                     {% for u in users %}
-                                        <option value="{{ u.id }}">{{ u.username }}</option>
+                                        {% if u.id == requirement.owner.id %}
+                                            <option value="{{ u.id }}" selected>{{ u.username }}</option>
+                                        {% else %}
+                                            <option value="{{ u.id }}">{{ u.username }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                 </select>
                             </div>
@@ -59,7 +72,11 @@
                             <div class="layui-input-block">
                                 <select name="category" lay-verify="required" lay-filter="aihao">
                                     {% for c in categorys %}
-                                        <option value="{{ c.id }}">{{ c.name }}</option>
+                                        {% if c.id == requirement.category.id %}
+                                            <option value="{{ c.id }}" selected>{{ c.name }}</option>
+                                        {% else %}
+                                            <option value="{{ c.id }}">{{ c.name }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                 </select>
 
@@ -109,35 +126,28 @@
                 layer.msg(JSON.stringify(data.field));
                 return false;
             });
+            {#form.on('select(project)', function (data) {#}
+            {#        if (data.value === '1') {#}
+            {#            alert('牛逼');#}
+            {#        } else {#}
+            {#            alert('不行');#}
+            {#        }#}
+            {##}
+            {#    }#}
+            {#)#}
         });
 
-        $("#name").blur(function () {
-            var name = $("#name").val();
-            $.get("/user/api/name_is_av/?name=" + name, function (data) {
-                if (data.flag === false) {
-                    if ($("span.help-block").length === 0) {
-                        $("#name").after("<span style='color:red' class='help-block'>用户名已存在</span>")
-                    } else {
-                        $("span.help-block").remove();
-                        $("#name").after("<span style='color:red' class='help-block'>用户名已存在</span>")
-                    }
-                } else if (data.flag !== true) {
-                    $("span.help-block").remove();
-                    $("#name_check").append("<span style='color:red' class='help-block'>名称不可为空</span>")
-                } else {
-                    $("span.help-block").remove();
 
-                }
-            })
-        });
         $("#confirm").click(function () {
             {#获取提交值#}
+            var rid = $("input[name='id']").val();
             var name = $("#name").val();
             var owner = $("select[name='owner']").val();
             var project = $("select[name='project']").val();
             var category = $("select[name='category']").val();
             var status = $("select[name='status']").val();
-            $.post('/user/api/demand_new/', {
+            $.post('/user/api/update/', {
+                rid: rid,
                 name: name,
                 owner: owner,
                 project: project,
@@ -145,13 +155,12 @@
                 status: status
             }, function (data) {
                 if (data.code === 0) {
-                    layer.msg('新增成功',{time:1500},function () {
-                        window.location.href = '/user/demand/pool'
-                    })
-
+                    alert('修改')
+                    window.location.href = '/user/demand/pool'
                 } else {
                     alert(data.msg)
                 }
+
 
             })
         })

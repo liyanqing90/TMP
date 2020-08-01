@@ -1,210 +1,145 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>需求池</title>
-    <link rel="stylesheet" href="{% static 'css/layui.css' %}">
-    <link rel="stylesheet" href="{% static 'css/modules/layer/default/layer.css' %}">
+{% extends 'base.html' %}
+{% block title %}
+    项目列表
+{% endblock %}
+{% block crumbs %}
 
-    <style>
-        {#        .layui-row {#}
-        {#            margin-top: 20px;#}
-        {#        }#}
-    </style>
-</head>
-<body>
-<script src="{% static 'js/lay/modules/jquery.js' %}"></script>
-<script src="{% static 'js/layui.js' %}"></script>
-<div class="layui-layout layui-layout-admin">
-    <div class=" layui-header header header-demo">
-        <a class="layui-logo" href="/">
-            <img src="{% static 'images/logo-text-whitetext_v2.svg' %}" alt="layui">
-        </a>
-        <ul class="layui-nav layui-layout-right">
-            <li class="layui-nav-item">
-                <a href="">控制台<span class="layui-badge">9</span></a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="">个人中心<span class="layui-badge-dot"></span></a>
-            </li>
-            <li class="layui-nav-item">
-                <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="javascript:;">修改信息</a></dd>
-                    <dd><a href="javascript:;">安全管理</a></dd>
-                    <dd><a href="javascript:;">退了</a></dd>
-                </dl>
-            </li>
-        </ul>
+    <a href="">项目管理</a>
+    <a><cite>需求池</cite></a>
+{% endblock %}
+{% block main %}
 
-    </div>
-    <div class="layui-side layui-bg-black ">
-        <div class="layui-side-scroll">
-            <ul class="layui-nav layui-nav-tree" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a href="javascript:;">项目管理</a>
-                    <dl class="layui-nav-child">
-                        <dd class="layui-this"><a href="/user/demand/pool/">需求池</a></dd>
-                        <dd><a href="javascript:;">项目</a></dd>
-                        <dd><a href="">跳转</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">解决方案</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="">移动模块</a></dd>
-                        <dd><a href="">后台模版</a></dd>
-                        <dd><a href="">电商平台</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"><a href="">产品</a></li>
-                <li class="layui-nav-item"><a href="">大数据</a></li>
-
-                <span class="layui-nav-bar" style="top: 270px; height: 0px; opacity: 0;"></span>
-
-            </ul>
-
-            <span class="layui-nav-bar" style="top: 277.5px; height: 0px; opacity: 0;"></span></ul>
-        </div>
-    </div>
-    <div class="layui-body" id="LAY_app_body" style="background: #f2f2f2">
-
-        <div class="layui-card layui-fluid">
-            <div class="layui-card-body ">
-                    <span class="layui-breadcrumb">
-                        <a href="">项目管理</a>
-                        <a><cite>需求池</cite></a>
-                    </span>
-            </div>
-        </div>
-        <div class="layui-card layui-fluid">
+    <div class="layui-card layui-fluid">
+        <div class="layui-card-body">
             <div class="layui-inline layui-col-md3">
-                <button class="layui-btn "><a href="/user/demand/new/">新增需求</a></button>
+                <a class="layui-btn " href="/user/demand/new/">新增需求</a>
             </div>
-            <div class="layui-form layui-col-md6">
-
-                <div class="layui-form-item ">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">按项目筛选</label>
-                        <div class="layui-input-block">
-                            <select name="project">
-                                <option value="0">全部</option>
-                                <option value="1">男</option>
-                                <option value="2">女</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <button class="layui-btn layuiadmin-btn-useradmin" lay-submit=""
-                                lay-filter="LAY-user-front-search">
-                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
-                        </button>
+            <div class="demoTable">
+                <div class="layui-inline">
+                    <label CLASS="layui-form-label">项目名称：</label>
+                    <div class="layui-input-block">
+                        <input id="keyword" name="name" lay-verify="required" class="layui-input">
                     </div>
                 </div>
+                <div class="layui-inline ">
+
+                    <label class="layui-form-label">按项目筛选</label>
+                    <div class="layui-input-inline ">
+                        <select name="project" class="layui-select">
+                            <option value="">全部项目</option>
+                            {% for p in projects %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <button id="searchbar" class="layui-btn" data-type="reload">搜索</button>
             </div>
         </div>
 
-        <div class="layui-row">
-            <div class="layui-fluid">
+    </div>
 
-                <div class="layui-card layui-col-space15 layui-col-md9">
-                    <table class="layui-hide" id="demo" lay-filter="test"></table>
+    <div class="layui-fluid">
+        <script type="text/html" id="barDemo" >
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="archive">归档</a>
+        </script>
 
-                    <script type="text/html" id="barDemo">
-                        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-                        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-                    </script>
+        <div class="layui-card layui-col-space20 layui-col-md9">
 
-                    <table class="layui-hide" id="test">
-                    </table>
-                </div>
-            </div>
+            <table class="layui-hide" id="test" lay-filter="demo"></table>
+
         </div>
     </div>
-</div>
-</body>
+{% endblock %}
 
-
-<script>
-    layui.use('element', function () {
-        var element = layui.element;
-    });
-
-    layui.use('form', function () {
-        var form = layui.form;
-
-        //监听提交
-        form.on('submit(formDemo)', function (data) {
-            layer.msg(JSON.stringify(data.field));
-            return false;
+{% block script %}
+    <script>
+        layui.use('element', function () {
+            var element = layui.element;
         });
-    });
-    layui.use('table', function () {
-        var table = layui.table;
 
-        table.render({
-            elem: '#test'
-            , url: '/user/api/demands/'
-            , cellMinWidth: 100 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-            , cols: [[
-                {field: 'id', width: '10%', title: 'ID', sort: true}
-                , {field: 'name', width: '20%', title: '需求名'}
-                , {field: 'category', width: '10%', title: '来源', sort: true}
+        layui.use('form', function () {
+            var form = layui.form;
 
-                , {field: 'status', title: '状态', width: '10%'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                , {field: 'project', width: '20%', title: '项目名'}
-                , {field: 'owner', width: '10%', title: '所有者'}
-                , {field: 'experience', title: '操作'}
-                {#,{field:'score', title: '评分', sort: true}#}
-                {#,{field:'classify', title: '职业'}#}
-                {#,{field:'wealth', width:137, title: '财富', sort: true}#}
-            ]]
-        });
-    });
-    //监听头工具栏事件
-    table.on('toolbar(barDemo)', function (obj) {
-        var checkStatus = table.checkStatus(obj.config.id)
-            , data = checkStatus.data; //获取选中的数据
-        switch (obj.event) {
-            case 'add':
-                layer.msg('添加');
-                break;
-            case 'update':
-                if (data.length === 0) {
-                    layer.msg('请选择一行');
-                } else if (data.length > 1) {
-                    layer.msg('只能同时编辑一个');
-                } else {
-                    layer.alert('编辑 [id]：' + checkStatus.data[0].id);
-                }
-                break;
-            case 'delete':
-                if (data.length === 0) {
-                    layer.msg('请选择一行');
-                } else {
-                    layer.msg('删除');
-                }
-                break;
-        };
-    });
-
-    //监听行工具事件
-    table.on('tool(barDemo)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-        var data = obj.data //获得当前行数据
-            , layEvent = obj.event; //获得 lay-event 对应的值
-        if (layEvent === 'detail') {
-            layer.msg('查看操作');
-        } else if (layEvent === 'del') {
-            layer.confirm('真的删除行么', function (index) {
-                obj.del(); //删除对应行（tr）的DOM结构
-                layer.close(index);
-                //向服务端发送删除指令
+            //监听提交
+            form.on('submit(formDemo)', function (data) {
+                layer.msg(JSON.stringify(data.field));
+                return false;
             });
-        } else if (layEvent === 'edit') {
-            layer.msg('编辑操作');
-        }
-    });
-</script>
-</html>
+        });
+        layui.use('table', function () {
+            var table = layui.table;
+
+            table.render({
+                elem: '#test'
+                ,
+                url: '/user/api/demands/'
+                ,
+                page: true
+                ,
+                cellMinWidth: 100 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                ,
+                cols: [[
+                    {field: 'id', width: '10%', title: '序号', sort: true}
+                    , {field: 'name', width: '20%', title: '名称'}
+                    , {field: 'category', width: '10%', title: '来源', sort: true}
+
+                    , {field: 'status', title: '状态', width: '10%'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    , {field: 'project', width: '20%', title: '项目名'}
+                    , {field: 'owner', width: '10%', title: '所有者'}
+                    , {fixed: 'right', width: '20%', title: '操作', toolbar: '#barDemo'}
+                ]], id: 'testReload',
+
+            });
+            //监听工具条
+            table.on('tool(demo)', function (obj) {
+                console.log(obj);
+                var data = obj.data;
+                if (obj.event === 'archive') {
+                    layer.confirm("归档后，只能在历史界面可见", function (index) {
+                        $.post('/user/api/archive/', {rid: data.id});
+                        layer.close(index);
+                    });
+                } else if (obj.event === 'del') {
+                    layer.confirm('真的删除行么', function (index) {
+                        $.post('/user/api/delete/', {rid: data.id});
+                        obj.del();
+                        layer.close(index);
+                    });
+                } else if (obj.event === 'edit') {
+                    url = '/user/demand/update/?rid=' + data.id
+                    window.location.href = url
+                }
+            });
+
+            var $ = layui.$, active = {
+                reload: function () {
+                    var keyword = $('#keyword').val();
+                    var project = $("select[name='project']").val();
+
+                    //执行重载
+                    table.reload('testReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        , where: {
+                            keyword: keyword,
+                            project: project
+                        }
+                    }, 'data');
+                }
+            };
+
+            $('#searchbar').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+        });
+
+
+    </script>
+{% endblock %}
+
